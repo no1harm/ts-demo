@@ -49,51 +49,57 @@
                 _this.container.appendChild(div);
             });
         };
+        Calculator.prototype.updateNumber = function (name, value) {
+            if (this[name]) {
+                this[name] = parseInt(this[name].toString() + value);
+            }
+            else {
+                this[name] = parseInt(value);
+            }
+            this.span.textContent = this[name].toString();
+        };
+        Calculator.prototype.updateNumbers = function (value) {
+            if (this.operator) {
+                this.updateNumber('n2', value);
+            }
+            else {
+                this.updateNumber('n1', value);
+            }
+        };
+        Calculator.prototype.updateResult = function () {
+            var result;
+            if (this.operator === '+') {
+                result = (this.n1 + this.n2).toString();
+            }
+            else if (this.operator === '-') {
+                result = (this.n1 - this.n2).toString();
+            }
+            else if (this.operator === '×') {
+                result = (this.n1 * this.n2).toString();
+            }
+            else if (this.operator === '÷') {
+                result = (this.n1 / this.n2).toString();
+            }
+            this.span.textContent = result;
+        };
+        Calculator.prototype.updateNumberOrOperator = function (value) {
+            if ('0123456789.'.indexOf(value) >= 0) {
+                this.updateNumbers(value);
+            }
+            else if ('+-×÷'.indexOf(value) >= 0) {
+                this.operator = value;
+            }
+            else if ('='.indexOf(value) >= 0) {
+                this.updateResult();
+            }
+        };
         Calculator.prototype.bindEvents = function () {
             var _this = this;
             this.container.addEventListener('click', function (e) {
                 if (e.target instanceof HTMLButtonElement) {
                     var button = e.target;
                     var value = button.textContent;
-                    if ('0123456789.'.indexOf(value) >= 0) {
-                        if (_this.operator) {
-                            if (_this.n2) {
-                                _this.n2 = parseInt(_this.n2.toString() + value);
-                            }
-                            else {
-                                _this.n2 = parseInt(value);
-                            }
-                            _this.span.textContent = _this.n2.toString();
-                        }
-                        else {
-                            if (_this.n1) {
-                                _this.n1 = parseInt(_this.n1.toString() + value);
-                            }
-                            else {
-                                _this.n1 = parseInt(value);
-                            }
-                            _this.span.textContent = _this.n1.toString();
-                        }
-                    }
-                    else if ('+-×÷'.indexOf(value) >= 0) {
-                        _this.operator = value;
-                    }
-                    else if ('='.indexOf(value) >= 0) {
-                        var result = void 0;
-                        if (_this.operator === '+') {
-                            result = (_this.n1 + _this.n2).toString();
-                        }
-                        else if (_this.operator === '-') {
-                            result = (_this.n1 - _this.n2).toString();
-                        }
-                        else if (_this.operator === '×') {
-                            result = (_this.n1 * _this.n2).toString();
-                        }
-                        else if (_this.operator === '÷') {
-                            result = (_this.n1 / _this.n2).toString();
-                        }
-                        _this.span.textContent = result;
-                    }
+                    _this.updateNumberOrOperator(value);
                 }
             });
         };

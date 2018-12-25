@@ -1,6 +1,6 @@
 {
     class Calculator {
-        public container;
+        public container:HTMLDivElement;
         public n1:number;
         public n2:number;
         public operator:string;
@@ -11,8 +11,8 @@
             ['1','2','3','+'],
             ['0','.','=']
         ];
-        private output;
-        private span;
+        private output:HTMLDivElement;
+        private span:HTMLSpanElement;
         constructor(){
             this.createContainer()
             this.createOutput()
@@ -54,42 +54,49 @@
                 this.container.appendChild(div)
             })
         }
+        updateNumber(name:string,value:string){
+            if(this[name]){
+                this[name] = parseInt(this[name].toString() + value)
+            }else{
+                this[name] = parseInt(value)
+            }
+            this.span.textContent = this[name].toString()
+        }
+        updateNumbers(value){
+            if(this.operator){
+                this.updateNumber('n2',value)
+            }else{
+                this.updateNumber('n1',value)
+            }
+        }
+        updateResult(){
+            let result
+            if(this.operator === '+'){
+                result = (this.n1+this.n2).toString()
+            }else if(this.operator === '-'){
+                result = (this.n1-this.n2).toString()
+            }else if(this.operator === '×'){
+                result = (this.n1*this.n2).toString()
+            }else if(this.operator === '÷'){
+                result = (this.n1/this.n2).toString()
+            }
+            this.span.textContent = result
+        }
+        updateNumberOrOperator(value){
+            if('0123456789.'.indexOf(value) >= 0){
+                this.updateNumbers(value)
+            }else if('+-×÷'.indexOf(value) >= 0){
+                this.operator = value
+            }else if('='.indexOf(value) >= 0){
+                this.updateResult()
+            }
+        }
         bindEvents(){
             this.container.addEventListener('click',(e)=>{
                 if(e.target instanceof HTMLButtonElement){
                     let button = e.target
                     let value = button.textContent
-                    if('0123456789.'.indexOf(value) >= 0){
-                        if(this.operator){
-                            if(this.n2){
-                                this.n2 = parseInt(this.n2.toString() + value)
-                            }else{
-                                this.n2 = parseInt(value)
-                            }
-                            this.span.textContent = this.n2.toString()
-                        }else{
-                            if(this.n1){
-                                this.n1 = parseInt(this.n1.toString() + value)
-                            }else{
-                                this.n1 = parseInt(value)
-                            }
-                            this.span.textContent = this.n1.toString()
-                        }
-                    }else if('+-×÷'.indexOf(value) >= 0){
-                        this.operator = value
-                    }else if('='.indexOf(value) >= 0){
-                        let result
-                        if(this.operator === '+'){
-                            result = (this.n1+this.n2).toString()
-                        }else if(this.operator === '-'){
-                            result = (this.n1-this.n2).toString()
-                        }else if(this.operator === '×'){
-                            result = (this.n1*this.n2).toString()
-                        }else if(this.operator === '÷'){
-                            result = (this.n1/this.n2).toString()
-                        }
-                        this.span.textContent = result
-                    }
+                    this.updateNumberOrOperator(value)                
                 }
             })
         }
