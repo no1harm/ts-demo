@@ -1,82 +1,103 @@
 {
-    function createButton(text, container, className) {
-        var button = document.createElement('button');
-        button.textContent = text;
-        if (className) {
-            button.className = className;
+    var Calculator = /** @class */ (function () {
+        function Calculator() {
+            this.buttonList = [
+                ['Clear', '÷'],
+                ['7', '8', '9', '×'],
+                ['4', '5', '6', '-'],
+                ['1', '2', '3', '+'],
+                ['0', '.', '=']
+            ];
+            this.createContainer();
+            this.createOutput();
+            this.createButtons();
+            this.bindEvents();
         }
-        container.appendChild(button);
-        return button;
-    }
-    var container_1 = document.createElement('div');
-    var output = document.createElement('div');
-    var span_1 = document.createElement('span');
-    span_1.textContent = '0';
-    output.classList.add('output');
-    output.appendChild(span_1);
-    container_1.classList.add('container');
-    container_1.appendChild(output);
-    var n1_1;
-    var n2_1;
-    var operator_1;
-    container_1.addEventListener('click', function (e) {
-        if (e.target instanceof HTMLButtonElement) {
-            var button = e.target;
-            var value = button.textContent;
-            if ('0123456789.'.indexOf(value) >= 0) {
-                if (operator_1) {
-                    if (n2_1) {
-                        n2_1 = parseInt(n2_1.toString() + value);
-                    }
-                    else {
-                        n2_1 = parseInt(value);
-                    }
-                    span_1.textContent = n2_1.toString();
-                }
-                else {
-                    if (n1_1) {
-                        n1_1 = parseInt(n1_1.toString() + value);
-                    }
-                    else {
-                        n1_1 = parseInt(value);
-                    }
-                    span_1.textContent = n1_1.toString();
-                }
+        Calculator.prototype.createButton = function (text, container, className) {
+            var button = document.createElement('button');
+            button.textContent = text;
+            if (className) {
+                button.className = className;
             }
-            else if ('+-×÷'.indexOf(value) >= 0) {
-                operator_1 = value;
-            }
-            else if ('='.indexOf(value) >= 0) {
-                if (operator_1 === '+') {
-                    span_1.textContent = (n1_1 + n2_1).toString();
+            container.appendChild(button);
+            return button;
+        };
+        Calculator.prototype.createContainer = function () {
+            var container = document.createElement('div');
+            container.classList.add('container');
+            document.body.appendChild(container);
+            this.container = container;
+        };
+        Calculator.prototype.createOutput = function () {
+            var output = document.createElement('div');
+            var span = document.createElement('span');
+            span.textContent = '0';
+            output.classList.add('output');
+            output.appendChild(span);
+            this.container.appendChild(output);
+            this.output = output;
+            this.span = span;
+        };
+        Calculator.prototype.createButtons = function () {
+            var _this = this;
+            this.buttonList.forEach(function (divList) {
+                var div = document.createElement('div');
+                div.classList.add('row');
+                divList.forEach(function (buttonText) {
+                    _this.createButton(buttonText, div, "button text-" + buttonText);
+                });
+                _this.container.appendChild(div);
+            });
+        };
+        Calculator.prototype.bindEvents = function () {
+            var _this = this;
+            this.container.addEventListener('click', function (e) {
+                if (e.target instanceof HTMLButtonElement) {
+                    var button = e.target;
+                    var value = button.textContent;
+                    if ('0123456789.'.indexOf(value) >= 0) {
+                        if (_this.operator) {
+                            if (_this.n2) {
+                                _this.n2 = parseInt(_this.n2.toString() + value);
+                            }
+                            else {
+                                _this.n2 = parseInt(value);
+                            }
+                            _this.span.textContent = _this.n2.toString();
+                        }
+                        else {
+                            if (_this.n1) {
+                                _this.n1 = parseInt(_this.n1.toString() + value);
+                            }
+                            else {
+                                _this.n1 = parseInt(value);
+                            }
+                            _this.span.textContent = _this.n1.toString();
+                        }
+                    }
+                    else if ('+-×÷'.indexOf(value) >= 0) {
+                        _this.operator = value;
+                    }
+                    else if ('='.indexOf(value) >= 0) {
+                        var result = void 0;
+                        if (_this.operator === '+') {
+                            result = (_this.n1 + _this.n2).toString();
+                        }
+                        else if (_this.operator === '-') {
+                            result = (_this.n1 - _this.n2).toString();
+                        }
+                        else if (_this.operator === '×') {
+                            result = (_this.n1 * _this.n2).toString();
+                        }
+                        else if (_this.operator === '÷') {
+                            result = (_this.n1 / _this.n2).toString();
+                        }
+                        _this.span.textContent = result;
+                    }
                 }
-                else if (operator_1 === '-') {
-                    span_1.textContent = (n1_1 - n2_1).toString();
-                }
-                else if (operator_1 === '×') {
-                    span_1.textContent = (n1_1 * n2_1).toString();
-                }
-                else if (operator_1 === '÷') {
-                    span_1.textContent = (n1_1 / n2_1).toString();
-                }
-            }
-        }
-        console.log(n1_1, operator_1, n2_1);
-    });
-    document.body.appendChild(container_1);
-    var buttonList = [
-        ['Clear', '÷'],
-        ['7', '8', '9', '×'],
-        ['4', '5', '6', '-'],
-        ['1', '2', '3', '+'],
-        ['0', '.', '=']
-    ];
-    buttonList.forEach(function (divList) {
-        var div = document.createElement('div');
-        div.classList.add('row');
-        divList.forEach(function (buttonText) {
-            createButton(buttonText, div, "button text-" + buttonText);
-        });
-        container_1.appendChild(div);
-    });
+            });
+        };
+        return Calculator;
+    }());
+    new Calculator();
 }

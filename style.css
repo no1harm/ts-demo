@@ -10,8 +10,6 @@ body{
     display: inline-block;
     box-shadow: 0px 0px 120px 0px rgba(0,0,0,0.2);
 }
-.container .row{
-}
 .container .output{
     border:1px solid #eee;
     height: 4em;
@@ -20,7 +18,7 @@ body{
 .container .output span{
     font-size: 34px;
     position: absolute;
-    right: 4px;
+    right: 10px;
     bottom: 4px;
 }
 .container .row .button{
