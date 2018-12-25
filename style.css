@@ -1,0 +1,43 @@
+*,*::before,*::after{margin: 0;padding: 0;box-sizing: border-box}
+
+body{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    margin: 80px auto;
+    display: inline-block;
+    box-shadow: 0px 0px 120px 0px rgba(0,0,0,0.2);
+}
+.container .row{
+}
+.container .output{
+    border:1px solid #eee;
+    height: 4em;
+    position: relative;
+}
+.container .output span{
+    font-size: 34px;
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+}
+.container .row .button{
+    font-size: 16px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    outline: none;
+    height: 4em;
+    width: 4em;
+}
+.container .row .button:hover{
+    transition: all .3s;
+    background-color: #FF8080;
+}
+.container .row .button.text-Clear{
+    width: 12em;
+}
+.container .row .button.text-0{
+    width: 8em;
+}
