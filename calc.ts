@@ -1,9 +1,10 @@
 {
     class Calculator {
         public container:HTMLDivElement;
-        public n1:number;
-        public n2:number;
-        public operator:string;
+        public n1:string = null;
+        public n2:string = null;
+        public operator:string = null;
+        public result:string = null;
         public buttonList:Array<Array<string>> = [
             ['Clear','÷'],
             ['7','8','9','×'],
@@ -54,41 +55,57 @@
                 this.container.appendChild(div)
             })
         }
-        updateNumber(name:string,value:string){
+        updateNumber(name:string,value:string):void{
             if(this[name]){
-                this[name] = parseInt(this[name].toString() + value)
+                this[name] += value
             }else{
-                this[name] = parseInt(value)
+                this[name] = value
             }
-            this.span.textContent = this[name].toString()
+            this.span.textContent = this[name]
         }
-        updateNumbers(value){
+        updateNumbers(value):void{
             if(this.operator){
                 this.updateNumber('n2',value)
             }else{
                 this.updateNumber('n1',value)
             }
         }
-        updateResult(){
+        updateResult():void{
             let result
+            let n1 = parseFloat(this.n1)
+            let n2 = parseFloat(this.n2)
             if(this.operator === '+'){
-                result = (this.n1+this.n2).toString()
+                result = n1 + n2
             }else if(this.operator === '-'){
-                result = (this.n1-this.n2).toString()
+                result = n1 - n2
             }else if(this.operator === '×'){
-                result = (this.n1*this.n2).toString()
+                result = n1*n2
             }else if(this.operator === '÷'){
-                result = (this.n1/this.n2).toString()
+                result = n1/n2
             }
+            result = result.toPrecision(12).replace(/0+$/g,'').replace(/0+e/g,'')
             this.span.textContent = result
+            this.n1 = null
+            this.n2 = null
+            this.operator = null
+            this.result = result
         }
         updateNumberOrOperator(value){
             if('0123456789.'.indexOf(value) >= 0){
                 this.updateNumbers(value)
             }else if('+-×÷'.indexOf(value) >= 0){
+                if(this.n1 === null){
+                    this.n1 = this.result
+                }
                 this.operator = value
             }else if('='.indexOf(value) >= 0){
                 this.updateResult()
+            }else if("Clear".indexOf(value) >= 0){
+                this.n1 = null
+                this.n2 = null
+                this.operator = null
+                this.result = null
+                this.span.textContent = '0'
             }
         }
         bindEvents(){
