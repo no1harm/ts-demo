@@ -12,6 +12,6 @@
 
 关键字：基础类型 / any / void / 枚举 / enum / 类型转换 / toString / const / 解构赋值 / 展开语法 / ... / interface / 接口继承 / extends /
 
-- [TypeScript 笔记「4」](https://zhuanlan.zhihu.com/p/53373648)
+- [TypeScript 笔记「4」](https://zhuanlan.zhihu.com/p/53505996)
 
-关键字：class / constructor / super / static / public / private / protected / 存取器 / getter / setter / 抽象类 / abstract / 基类 /
+关键字：class / constructor / super / static / public / private / protected / 存取器 / getter / setter / 抽象类 / abstract / 基类 / function / 函数 /

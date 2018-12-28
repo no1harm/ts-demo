@@ -219,3 +219,16 @@
     let jack = new Human('jack')
     jack.eat()  //"rice"
 }
+{
+    function fn(a:number,b = 3):void{
+        console.log(a + b)
+    }
+    fn(4)  
+    fn(4,4)
+}
+{
+    function add(a:number,...restArgs:string[]):void{
+        console.log(a + restArgs.join(''))
+    }  
+    add(1,'1','2','3')  // "1123"
+}
