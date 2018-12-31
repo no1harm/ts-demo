@@ -232,3 +232,65 @@
     }  
     add(1,'1','2','3')  // "1123"
 }
+{
+    // 泛型
+    function returnIt<X>(a:X):X{
+        return a
+    }
+    let a = returnIt(1)
+    let b = returnIt('1')
+    console.log(typeof a,typeof b)  // number string
+}
+{
+    // 泛型变量
+    function returnArray<T>(a:T[]):T[]{
+        return a
+    }
+    let arr = returnArray([1,2,3])
+    console.log(arr)    // [1,2,3]
+}
+{
+    interface Human {
+        name:string;
+        age:number;
+    }
+    function returnHuman<T>(a:T):T{
+        return a
+    }
+    let jack:Human = returnHuman<Human>({name:'jack',age:18})
+    console.log(jack)
+}
+{
+    interface hasLength {
+        lenght:number
+    }
+    function getLength<T extends hasLength>(arg:T):T{
+        console.log(arg.lenght)
+        return arg
+    }
+    let rect = getLength({lenght:30,height:20})
+    console.log(rect)   //{lenght: 30, height: 20}
+}
+{
+    interface resetThis{
+        name:string
+    }
+    function printThis(this:resetThis){
+        console.log(this)
+    }
+    printThis.call({name:'jack'})
+}
+{
+    // this
+    interface resetThis{
+        name:string
+    }
+    function t1(this:resetThis){
+        console.log(this)   // {name:'jack'}
+        function t2(){
+            console.log(this)   // window/global/undefined
+        }
+        t2()  // 等同于 t1.t2.call() 所以他的 this 是 undefined
+    }
+    t1.call({name:'jack'})
+}

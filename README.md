@@ -15,3 +15,11 @@
 - [TypeScript 笔记「4」](https://zhuanlan.zhihu.com/p/53505996)
 
 关键字：class / constructor / super / static / public / private / protected / 存取器 / getter / setter / 抽象类 / abstract / 基类 / function / 函数 /
+
+- [TypeScript 笔记「5」](https://zhuanlan.zhihu.com/p/53737212)
+
+关键字：泛型 / 泛型变量 / 泛型约束 /
+
+- [TypeScript 笔记「6」](https://zhuanlan.zhihu.com/p/53737527)
+
+关键字：Vue-cli / vue --version / npm 全局安装目录 / npm config / vue-class-component /
